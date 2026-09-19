@@ -27,6 +27,52 @@ public class PokeDeBatalha {
 		this.habilidades = habilidades;
 		this.efeitoatk = efeitoatk;
 	}
+
+	public void atacar(PokeDeBatalha alvo, Habilidade habilidade) {
+
+		double multiplicador = 1.0;
+
+		TipoHabilidades tipoAtaque = habilidade.getTipoHabilidade();
+		TipoElemento tipoAlvo = alvo.getTipoElemento();
+
+		if (tipoAtaque == TipoHabilidades.FOGO) {
+			if (tipoAlvo == TipoElemento.PLANTA) {
+				multiplicador = 2.0;
+			}
+			else if (tipoAlvo == TipoElemento.AGUA) {
+				multiplicador = 0.5;
+			}
+		}
+		else if (tipoAtaque == TipoHabilidades.AGUA){
+			if (tipoAlvo == TipoElemento.PLANTA){
+				multiplicador = 0.5;
+			}
+			else if (tipoAlvo == TipoElemento.FOGO){
+				multiplicador = 2.0;
+			}
+		}
+		else if (tipoAtaque == TipoHabilidades.PLANTA){
+			if (tipoAlvo == TipoElemento.AGUA){
+				multiplicador = 2.0;
+			}
+			else if (tipoAlvo == TipoElemento.FOGO){
+				multiplicador = 0.5;
+			}
+		}
+
+		double dano = (habilidade.getDano() * multiplicador) - (alvo.getDefesa() / 2.0);
+
+		if (dano < 1) {
+			dano = 1;
+		}
+
+		int novoHp = (int) (alvo.getHp() - dano);
+		if (novoHp < 0){
+			novoHp = 0;
+		}
+		alvo.setHp(novoHp);
+
+	}
 	
 	public void usarItem(Item item) {
 		setHp(getHp() + item.getAdicionaHP());
