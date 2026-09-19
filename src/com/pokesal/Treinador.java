@@ -37,6 +37,21 @@ public class Treinador {
     public void setMochila(ArrayList<Item> mochila) {
         this.mochila = mochila;
     }
+    
+    public PokeDeBatalha armarParaBatalha() {
+		Pokesal pokesal = this.getPokesal();
+		return new PokeDeBatalha(
+			this,
+			pokesal.getNome(),
+			pokesal.getHp(),
+			pokesal.getDefesa(),
+			pokesal.getAtaque(),
+			pokesal.getVelocidade(),
+			pokesal.getTipoElemento(),
+			pokesal.getHabilidades(),
+			null
+		);
+	}
 
     @java.lang.Override
     public java.lang.String toString() {
