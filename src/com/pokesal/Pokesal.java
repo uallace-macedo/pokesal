@@ -10,8 +10,6 @@ public class Pokesal {
 	private int velocidade;
 	private ArrayList<Habilidade> habilidades;
 	
-	
-	
 	private TipoElemento tipoElemento;
 	
 	public Pokesal(String nome, int hp, int defesa, int ataque, int velocidade, TipoElemento tipoElemento, ArrayList<Habilidade> habilidades) {
@@ -46,5 +44,13 @@ public class Pokesal {
 
 	public TipoElemento getTipoElemento() {
 		return tipoElemento;
+	}
+
+	public ArrayList<Habilidade> getHabilidades() {
+		return habilidades;
+	}
+
+	public void setHabilidades(ArrayList<Habilidade> habilidades) {
+		this.habilidades = habilidades;
 	}
 }
