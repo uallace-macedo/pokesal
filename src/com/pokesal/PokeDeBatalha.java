@@ -37,18 +37,18 @@ public class PokeDeBatalha {
     	treinador.getMochila().remove(item);
 	}
 
-	public PokeDeBatalha pegarPokeDeBatalha(Treinador treinador){
+	public PokeDeBatalha armarParaBatalha(Treinador treinador) {
 		Pokesal pokesal = treinador.getPokesal();
-		return.treinadorPokesal = new PokeDeBatalha(
+		return new PokeDeBatalha(
 			treinador,
-			pokesal.getNome();
-			pokesal.getHp();
-			pokesal.getDefesa();
-			pokesal.getAtaque();
-			pokesal.getTipoElemento();
-			pokesal.getHabilidade();
-			null;
-
+			pokesal.getNome(),
+			pokesal.getHp(),
+			pokesal.getDefesa(),
+			pokesal.getAtaque(),
+			pokesal.getVelocidade(),
+			pokesal.getTipoElemento(),
+			pokesal.getHabilidades(),
+			null
 		);
 	}
 	
