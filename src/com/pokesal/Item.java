@@ -8,7 +8,7 @@ public class Item {
     private boolean removeEfeito;
     private int reduzSpeed;
 
-    public Itens(String nome, String descricao, int adicionaHP, boolean removeEfeito, int reduzSpeed) {
+    public Item(String nome, String descricao, int adicionaHP, boolean removeEfeito, int reduzSpeed) {
         this.nome = nome;
         this.descricao = descricao;
         this.adicionaHP = adicionaHP;
@@ -58,7 +58,7 @@ public class Item {
 
     @java.lang.Override
     public java.lang.String toString() {
-        return "Itens{" +
+        return "Item{" +
                 "nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", adicionaHP=" + adicionaHP +
