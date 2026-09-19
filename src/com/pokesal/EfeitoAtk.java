@@ -1,7 +1,6 @@
 package com.pokesal;
 
 public class EfeitoAtk {
-
     private String nome;
     private int dano;
     private int redSpeed;
@@ -9,7 +8,6 @@ public class EfeitoAtk {
     private int rodadas;
 
     public EfeitoAtk(String nome, int dano, int redSpeed, int redDef, int rodadas) {
-
         this.nome = nome;
         this.dano = dano;
         this.redSpeed = redSpeed;
