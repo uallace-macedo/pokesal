@@ -6,14 +6,14 @@ public class Item {
     private String descricao;
     private int adicionaHP;
     private boolean removeEfeito;
-    private int reduzSpeed;
+    private int aumentaSpeed;
 
-    public Item(String nome, String descricao, int adicionaHP, boolean removeEfeito, int reduzSpeed) {
+    public Item(String nome, String descricao, int adicionaHP, boolean removeEfeito, int aumentaSpeed) {
         this.nome = nome;
         this.descricao = descricao;
         this.adicionaHP = adicionaHP;
         this.removeEfeito = removeEfeito;
-        this.reduzSpeed = reduzSpeed;
+        this.aumentaSpeed = aumentaSpeed;
     }
 
     public String getNome() {
@@ -48,12 +48,12 @@ public class Item {
         this.removeEfeito = removeEfeito;
     }
 
-    public int getReduzSpeed() {
-        return reduzSpeed;
+    public int getAumentaSpeed() {
+        return aumentaSpeed;
     }
 
-    public void setReduzSpeed(int reduzSpeed) {
-        this.reduzSpeed = reduzSpeed;
+    public void setAumentaSpeed(int aumentaSpeed) {
+        this.aumentaSpeed = aumentaSpeed;
     }
 
     @java.lang.Override
@@ -63,7 +63,7 @@ public class Item {
                 ", descricao='" + descricao + '\'' +
                 ", adicionaHP=" + adicionaHP +
                 ", removeEfeito=" + removeEfeito +
-                ", reduzSpeed=" + reduzSpeed +
+                ", aumentaSpeed=" + aumentaSpeed +
                 '}';
     }
 }
