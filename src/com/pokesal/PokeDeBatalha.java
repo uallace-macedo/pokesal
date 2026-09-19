@@ -28,6 +28,29 @@ public class PokeDeBatalha {
 		this.efeitoatk = efeitoatk;
 	}
 	
+	public void usarItem(Item item) {
+		setHp(getHp() + item.getAdicionaHP());
+		setVelocidade(getVelocidade() + item.getAumentaSpeed());
+		if (item.isRemoveEfeito()) {
+				setEfeitoatk(null);
+		}
+    	treinador.getMochila().remove(item);
+	}
+
+	public PokeDeBatalha pegarPokeDeBatalha(Treinador treinador){
+		Pokesal pokesal = treinador.getPokesal();
+		return.treinadorPokesal = new PokeDeBatalha(
+			treinador,
+			pokesal.getNome();
+			pokesal.getHp();
+			pokesal.getDefesa();
+			pokesal.getAtaque();
+			pokesal.getTipoElemento();
+			pokesal.getHabilidade();
+			null;
+
+		);
+	}
 	
 	public Treinador getTreinador() {
 		return treinador;
