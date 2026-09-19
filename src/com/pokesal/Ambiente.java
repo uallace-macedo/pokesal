@@ -1,3 +1,5 @@
+package com.pokesal;
+
 public class Ambiente {
 
     private String ambienteNome;
@@ -7,7 +9,7 @@ public class Ambiente {
     private double aumentaSpd;
 
     public Ambiente (String ambienteNome, TipoElemento tipoElemento, double aumentaAtk, double aumentaDef, double aumentaSpd){
-        this ambienteNome = ambienteNome;
+        this.ambienteNome = ambienteNome;
         this.tipoElemento = tipoElemento;
         this.aumentaAtk = aumentaAtk;
         this.aumentaDef = aumentaDef;
