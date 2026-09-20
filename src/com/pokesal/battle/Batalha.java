@@ -1,7 +1,12 @@
 package com.pokesal.battle;
 
+import java.util.ArrayList;
+
 import com.pokesal.model.Ambiente;
+import com.pokesal.model.Habilidade;
+import com.pokesal.model.Item;
 import com.pokesal.model.PokeDeBatalha;
+import com.pokesal.ui.Console;
 
 public class Batalha {
 
@@ -19,12 +24,15 @@ public class Batalha {
   private int itensUsadosOponente;
 
   private Combate combate;
+  private Console console;
 
   public Batalha(Ambiente ambiente, PokeDeBatalha jogador, PokeDeBatalha oponente) {
     this.ambiente = ambiente;
     this.jogador = jogador;
     this.oponente = oponente;
+
     this.combate = new Combate();
+    this.console = new Console();
   }
 
   private void definirOrdem() {
@@ -67,31 +75,96 @@ public class Batalha {
 
   private void executarTurno(PokeDeBatalha atacante) {
     PokeDeBatalha alvo = obterAlvo(atacante);
-    Acao acao = obterAcao(atacante);
 
-    executarAcao(atacante, alvo, acao);
+    while(true) {
+      Acao acao = obterAcao(atacante);
+      if(executarAcao(atacante, alvo, acao)) break;
+    }
   }
 
   private Acao obterAcao(PokeDeBatalha atacante) {
-    return null;
+    while(true) {
+      console.mostrarMenuAcao();
+      int opcao = console.lerOpcao();
+  
+      switch (opcao) {
+        case 1:
+          return obterAcaoAtaque(atacante);
+  
+        case 2:
+          return obterAcaoItem(atacante);
+      
+        default:
+          console.mostrarMensagem("Opção inválida!");
+      }
+    }
   }
 
-  private void executarAcao(PokeDeBatalha atacante, PokeDeBatalha alvo, Acao acao) {
+  private Acao obterAcaoAtaque(PokeDeBatalha atacante) {
+    ArrayList<Habilidade> habilidades = atacante.getHabilidades();
+
+    while(true) {
+      console.mostrarHabilidades(habilidades);
+      int opcao = console.lerOpcao();
+  
+      if(opcao < 1 || opcao > habilidades.size()) {
+        console.mostrarMensagem("Habilidade inválida!");
+        continue;
+      }
+
+      Habilidade habilidade = habilidades.get(opcao - 1);
+      return new Acao(
+        TipoAcao.ATACAR,
+        habilidade,
+        null
+      );
+    }
+  }
+
+  private Acao obterAcaoItem(PokeDeBatalha atacante) {
+    ArrayList<Item> mochila = atacante.getTreinador().getMochila();
+    if(mochila.isEmpty()) {
+      console.mostrarMensagem("Você não possui itens!");
+      return obterAcao(atacante);
+    }
+
+    while(true) {
+      console.mostrarItens(mochila);
+      int opcao = console.lerOpcao();
+  
+      if(opcao < 1 || opcao > mochila.size()) {
+        console.mostrarMensagem("Item inválido");
+        continue;
+      }
+
+      Item item = mochila.get(opcao - 1);
+      return new Acao(
+        TipoAcao.USAR_ITEM,
+        null,
+        item
+      );
+    }
+  }
+
+  private boolean executarAcao(PokeDeBatalha atacante, PokeDeBatalha alvo, Acao acao) {
     switch (acao.getTipo()) {
 
       case ATACAR:
         combate.atacar(atacante, alvo, acao.getHabilidade(), ambiente);
-        break;
+        return true;
 
       case USAR_ITEM:
         if (!podeUsarItem(atacante)) {
-          // informar que não pode usar mais itens
-          break;
+          console.mostrarMensagem("Você já utilizou o limite de itens nesta batalha!");
+          return false;
         }
 
         atacante.usarItem(acao.getItem());
         registrarUsoDeItem(atacante);
-        break;
+        return true;
+
+      default:
+        return false;
     }
   }
 
@@ -115,7 +188,6 @@ public class Batalha {
 
   private void finalizar() {
     PokeDeBatalha vencedor = obterVencedor();
-
-    System.out.println(vencedor.getNome() + " venceu a batalha!");
+    console.mostrarMensagem(vencedor.getNome() + " venceu a batalha!");
   }
 }
