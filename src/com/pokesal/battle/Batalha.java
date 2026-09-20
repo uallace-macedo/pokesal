@@ -17,14 +17,13 @@ public class Batalha {
   private PokeDeBatalha jogador;
   private PokeDeBatalha oponente;
 
-  private PokeDeBatalha primeiro;
-  private PokeDeBatalha segundo;
-
   private int itensUsadosJogador;
   private int itensUsadosOponente;
 
   private Combate combate;
   private Console console;
+
+  private PokeDeBatalha ultimoQueJogou;
 
   public Batalha(Ambiente ambiente, PokeDeBatalha jogador, PokeDeBatalha oponente) {
     this.ambiente = ambiente;
@@ -35,45 +34,39 @@ public class Batalha {
     this.console = new Console();
   }
 
-  private void definirOrdem() {
-      int velocidadeJogador = combate.calcularVelocidadeEfetiva(jogador, ambiente);
-      int velocidadeOponente = combate.calcularVelocidadeEfetiva(oponente, ambiente);
+  public void iniciar() {    
 
-      if (velocidadeJogador >= velocidadeOponente) {
-        primeiro = jogador;
-        segundo = oponente;
-      } else {
-        primeiro = oponente;
-        segundo = jogador;
-      }
-  }
-
-  private boolean terminou() {
-    return jogador.getHpAtual() <= 0 || oponente.getHpAtual() <= 0;
-  }
-
-  private PokeDeBatalha obterVencedor() {
-    if (jogador.getHpAtual() <= 0) return oponente;
-    return jogador;
-  }
-
-  public void iniciar() {
-    definirOrdem();
+    ultimoQueJogou = null;
 
     while (!terminou()) {
-      executarTurno(primeiro);
-
+      PokeDeBatalha proximo = obterProximoJogador();
+      executarTurno(proximo);
+      ultimoQueJogou = proximo;
+      
       if (terminou()) {
         break;
       }
-
-      executarTurno(segundo);
     }
 
     finalizar();
   }
 
+  private PokeDeBatalha obterProximoJogador() {
+    if(ultimoQueJogou == null) return obterMaisRapido();
+    if(ultimoQueJogou == jogador) return oponente;
+    return jogador;
+  }
+
+  private PokeDeBatalha obterMaisRapido() {
+    int velocidadeJogador = combate.calcularVelocidadeEfetiva(jogador, ambiente);
+    int velocidadeOponente = combate.calcularVelocidadeEfetiva(oponente, ambiente);
+
+    if(velocidadeJogador >= velocidadeOponente) return jogador;
+    return oponente;
+  }
+
   private void executarTurno(PokeDeBatalha atacante) {
+    System.out.println("Turno de " + atacante.getNome());
     PokeDeBatalha alvo = obterAlvo(atacante);
 
     while(true) {
@@ -106,6 +99,8 @@ public class Batalha {
     while(true) {
       console.mostrarHabilidades(habilidades);
       int opcao = console.lerOpcao();
+
+      if(opcao == 0) return obterAcao(atacante);
   
       if(opcao < 1 || opcao > habilidades.size()) {
         console.mostrarMensagem("Habilidade inválida!");
@@ -131,6 +126,8 @@ public class Batalha {
     while(true) {
       console.mostrarItens(mochila);
       int opcao = console.lerOpcao();
+
+      if(opcao == 0) return obterAcao(atacante);
   
       if(opcao < 1 || opcao > mochila.size()) {
         console.mostrarMensagem("Item inválido");
@@ -150,14 +147,14 @@ public class Batalha {
     switch (acao.getTipo()) {
 
       case ATACAR:
-        ResultadoAtaque resultado = combate.atacar(
+        ResultadoAtaque resultadoAtaque = combate.atacar(
           atacante,
           alvo,
           acao.getHabilidade(),
           ambiente
         );
 
-        console.mostrarResultadoAtaque(resultado);
+        console.mostrarResultadoAtaque(resultadoAtaque);
         return true;
 
       case USAR_ITEM:
@@ -166,8 +163,16 @@ public class Batalha {
           return false;
         }
 
-        atacante.usarItem(acao.getItem());
+        Item item = acao.getItem();
+        atacante.usarItem(item);
         registrarUsoDeItem(atacante);
+
+        ResultadoItem resultadoItem = new ResultadoItem(
+          atacante,
+          item
+        );
+
+        console.mostrarResultadoItem(resultadoItem);
         return true;
 
       default:
@@ -196,5 +201,14 @@ public class Batalha {
   private void finalizar() {
     PokeDeBatalha vencedor = obterVencedor();
     console.mostrarMensagem(vencedor.getNome() + " venceu a batalha!");
+  }
+
+  private PokeDeBatalha obterVencedor() {
+    if (jogador.getHpAtual() <= 0) return oponente;
+    return jogador;
+  }
+
+  private boolean terminou() {
+    return jogador.getHpAtual() <= 0 || oponente.getHpAtual() <= 0;
   }
 }
