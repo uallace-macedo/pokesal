@@ -2,6 +2,7 @@ package com.pokesal.battle;
 
 import com.pokesal.model.Ambiente;
 import com.pokesal.model.Habilidade;
+import com.pokesal.model.Item;
 import com.pokesal.model.PokeDeBatalha;
 import com.pokesal.model.TipoElemento;
 import com.pokesal.model.TipoHabilidades;
@@ -72,6 +73,26 @@ public class Combate {
       dano,
       novoHp
     );
+  }
+
+  public ResultadoItem usarItem(PokeDeBatalha usuario, Item item) {
+    
+    switch (item.getTipoEfeito()) {
+      case CURA_TOTAL:
+        usuario.curarTotal();
+        break;
+
+      case REMOVE_EFEITO:
+        usuario.removerEfeito();
+        break;
+
+      case AUMENTA_SPEED:
+        usuario.aumentarVelocidade(item.getValor());
+        break;
+    }
+
+    usuario.getTreinador().getMochila().remove(item);
+    return new ResultadoItem(usuario, item);
   }
 
   private double calcularMultiplicadorTipo(Habilidade habilidade, PokeDeBatalha alvo) {

@@ -13,7 +13,7 @@ public class PokeDeBatalha {
 	private int velocidade;
 	private TipoElemento tipoElemento;
 	private ArrayList<Habilidade> habilidades;
-	private EfeitoAtk efeitoatk;
+	private EfeitoAtivo efeitoAtivo;
 
 	public PokeDeBatalha(
 		Treinador treinador,
@@ -23,8 +23,7 @@ public class PokeDeBatalha {
 		int ataque,
 		int velocidade,
 		TipoElemento tipoElemento,
-		ArrayList<Habilidade> habilidades,
-		EfeitoAtk efeitoatk
+		ArrayList<Habilidade> habilidades
 	) {
 		this.treinador = treinador;
 		this.nome = nome;
@@ -37,97 +36,27 @@ public class PokeDeBatalha {
 
 		this.tipoElemento = tipoElemento;
 		this.habilidades = habilidades;
-		this.efeitoatk = efeitoatk;
+		this.efeitoAtivo = null;
 	}
 
-	public void usarItem(Item item) {
-		switch (item.getTipoEfeito()) {
-			case CURA_TOTAL:
-				setHpAtual(getHpMaximo());	
-				break;
-
-			case REMOVE_EFEITO:
-				setEfeitoatk(null);
-				break;
-
-			case AUMENTA_SPEED:
-				setVelocidade(getVelocidade() + item.getValor());
-				break;
-		}
-
-		treinador.getMochila().remove(item);
-	}
-	
 	public Treinador getTreinador() {
 		return treinador;
 	}
-	
+
 	public void setTreinador(Treinador treinador) {
 		this.treinador = treinador;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	
-	public int getDefesa() {
-		return defesa;
-	}
-	
-	public void setDefesa(int defesa) {
-		this.defesa = defesa;
-	}
-	
-	public int getAtaque() {
-		return ataque;
-	}
-	
-	public void setAtaque(int ataque) {
-		this.ataque = ataque;
-	}
-	
-	public int getVelocidade() {
-		return velocidade;
-	}
-	
-	public void setVelocidade(int velocidade) {
-		this.velocidade = velocidade;
-	}
-	
-	public TipoElemento getTipoElemento() {
-		return tipoElemento;
-	}
-	
-	public void setTipoElemento(TipoElemento tipoElemento) {
-		this.tipoElemento = tipoElemento;
-	}
-	
-	public ArrayList<Habilidade> getHabilidades() {
-		return habilidades;
-	}
-	
-	public void setHabilidades(ArrayList<Habilidade> habilidades) {
-		this.habilidades = habilidades;
-	}
-	
-	public EfeitoAtk getEfeitoatk() {
-		return efeitoatk;
-	}
-	
-	public void setEfeitoatk(EfeitoAtk efeitoatk) {
-		this.efeitoatk = efeitoatk;
 	}
 
 	public int getHpMaximo() {
 		return hpMaximo;
-	}
-
-	public void setHpMaximo(int hpMaximo) {
-		this.hpMaximo = hpMaximo;
 	}
 
 	public int getHpAtual() {
@@ -136,5 +65,57 @@ public class PokeDeBatalha {
 
 	public void setHpAtual(int hpAtual) {
 		this.hpAtual = hpAtual;
+	}
+
+	public int getDefesa() {
+		return defesa;
+	}
+
+	public void setDefesa(int defesa) {
+		this.defesa = defesa;
+	}
+
+	public int getAtaque() {
+		return ataque;
+	}
+
+	public void setAtaque(int ataque) {
+		this.ataque = ataque;
+	}
+
+	public int getVelocidade() {
+		return velocidade;
+	}
+
+	public void setVelocidade(int velocidade) {
+		this.velocidade = velocidade;
+	}
+
+	public TipoElemento getTipoElemento() {
+		return tipoElemento;
+	}
+
+	public ArrayList<Habilidade> getHabilidades() {
+		return habilidades;
+	}
+
+	public EfeitoAtivo getEfeitoAtivo() {
+		return efeitoAtivo;
+	}
+
+	public void setEfeitoAtivo(EfeitoAtivo efeitoAtivo) {
+		this.efeitoAtivo = efeitoAtivo;
+	}
+
+	public void curarTotal() {
+		setHpAtual(getHpMaximo());
+	}
+
+	public void removerEfeito() {
+		setEfeitoAtivo(null);
+	}
+
+	public void aumentarVelocidade(int valor) {
+		setVelocidade(getVelocidade() + valor);
 	}
 }

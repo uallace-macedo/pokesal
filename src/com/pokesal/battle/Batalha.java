@@ -164,13 +164,9 @@ public class Batalha {
         }
 
         Item item = acao.getItem();
-        atacante.usarItem(item);
+        
+        ResultadoItem resultadoItem = combate.usarItem(atacante, item);
         registrarUsoDeItem(atacante);
-
-        ResultadoItem resultadoItem = new ResultadoItem(
-          atacante,
-          item
-        );
 
         console.mostrarResultadoItem(resultadoItem);
         return true;
