@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.pokesal.battle.ResultadoAtaque;
+import com.pokesal.battle.ResultadoItem;
 import com.pokesal.model.Habilidade;
 import com.pokesal.model.Item;
 
@@ -33,7 +34,7 @@ public class Console {
 
   public void mostrarMenuAcao() {
     System.out.printf(
-      "======= AÇÃO =======%n" +
+      "%n======= AÇÃO =======%n" +
       "1. Atacar%n" +
       "2. Usar item%n" +
       "====================%n" +
@@ -47,16 +48,14 @@ public class Console {
     for(int i = 0; i < habilidades.size(); i++) {
       Habilidade habilidade = habilidades.get(i);
       System.out.printf(
-        "%d. %s%n" +
-        "Tipo: %s%n" +
-        "Dano: %d%n",
+        "%d. %s%n",
         (i + 1),
-        habilidade.getNome(),
-        habilidade.getTipoHabilidade()
+        habilidade.getNome()
       );
     }
 
     System.out.printf(
+      "0. Voltar%n" +
       "===========================%n" +
       "Escolha: "
     );
@@ -68,13 +67,15 @@ public class Console {
     for(int i = 0; i < itens.size(); i++) {
       Item item = itens.get(i);
       System.out.printf(
-        "%d. %s%n",
+        "%d. %s (%s)%n",
         (i + 1),
-        item.getNome()
+        item.getNome(),
+        item.getDescricao()
       );
     }
 
     System.out.printf(
+      "0. Voltar%n" +
       "=====================%n" +
       "Escolha: "
     );
@@ -89,7 +90,7 @@ public class Console {
     );
 
     System.out.printf(
-      "Dano causado: %d%n",
+      "Dano causado: %d%n%n",
       resultado.getDano()
     );
 
@@ -99,5 +100,32 @@ public class Console {
       resultado.getHpRestante(),
       resultado.getAlvo().getHpMaximo()
     );
+  }
+
+  public void mostrarResultadoItem(ResultadoItem resultado) {
+    System.out.printf(
+      "%n" +
+      "%s usou %s!%n",
+      resultado.getUsuario().getNome(),
+      resultado.getItem().getNome()
+    );
+
+    switch (resultado.getItem().getTipoEfeito()) {
+      case CURA_TOTAL:
+        System.out.printf(
+          "HP restaurado: %d/%d%n%n",
+          resultado.getUsuario().getHpAtual(),
+          resultado.getUsuario().getHpMaximo()
+        );
+        break;
+    
+      case AUMENTA_SPEED:
+        System.out.printf("Velocidade aumentada em 30pts!%n");
+        break;
+
+      case REMOVE_EFEITO:
+        System.out.println("Todos os efeitos foram removidos!");
+        break;
+    }
   }
 }
