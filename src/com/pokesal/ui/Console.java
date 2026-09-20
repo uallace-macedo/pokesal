@@ -7,6 +7,7 @@ import com.pokesal.battle.ResultadoAtaque;
 import com.pokesal.battle.ResultadoItem;
 import com.pokesal.model.Habilidade;
 import com.pokesal.model.Item;
+import com.pokesal.model.PokeDeBatalha;
 
 public class Console {
   private Scanner scan;
@@ -28,22 +29,49 @@ public class Console {
     }
   }
 
+  public void mostrarInicioRodada(int rodada) {
+    System.out.printf(
+      "---___---___---___---___---___---___---___---___---_%n" +
+      "RODADA %d%n",
+      rodada
+    );
+  }
+
+  public void mostrarExecucaoRodada() {
+    System.out.printf(
+      "---___---___---___---___---___---___---___---___---_%n%n%n" +
+      "EXECUTANDO RODADA%n" +
+      "=".repeat(52) + "%n"
+    );
+  }
+
   public void mostrarMensagem(String mensagem) {
     System.out.println(mensagem);
   }
 
-  public void mostrarMenuAcao() {
+  public void mostrarMenuAcao(PokeDeBatalha poke) {
+
     System.out.printf(
-      "%n======= AÇÃO =======%n" +
+      "---___---___---___---___---___---___---___---___---_%n%n%n" +
+      "AÇÃO DE %S%n" +
+      "=".repeat(52) + "%n" +
       "1. Atacar%n" +
       "2. Usar item%n" +
-      "====================%n" +
-      "Escolha: " 
+      "-".repeat(52) + "%n" +
+      "Escolha: ",
+      poke.getNome().toUpperCase()
     );
   }
 
-  public void mostrarHabilidades(ArrayList<Habilidade> habilidades) {
-    System.out.println("\n======= HABILIDADES =======");
+  public void mostrarHabilidades(PokeDeBatalha poke) {
+    System.out.printf(
+      "---___---___---___---___---___---___---___---___---_%n%n%n" +
+      "HABILIDADES DE %s%n" +
+      "=".repeat(52) + "%n",
+      poke.getNome().toUpperCase()
+    );
+
+    ArrayList<Habilidade> habilidades = poke.getHabilidades();
 
     for(int i = 0; i < habilidades.size(); i++) {
       Habilidade habilidade = habilidades.get(i);
@@ -56,13 +84,17 @@ public class Console {
 
     System.out.printf(
       "0. Voltar%n" +
-      "===========================%n" +
+      "-".repeat(52) + "%n" +
       "Escolha: "
     );
   }
 
   public void mostrarItens(ArrayList<Item> itens) {
-    System.out.println("\n======= ITENS =======");
+    System.out.printf(
+      "---___---___---___---___---___---___---___---___---_%n%n%n" +
+      "ITENS%n" +
+      "=".repeat(52)
+    );
 
     for(int i = 0; i < itens.size(); i++) {
       Item item = itens.get(i);
@@ -76,8 +108,16 @@ public class Console {
 
     System.out.printf(
       "0. Voltar%n" +
-      "=====================%n" +
+      "-".repeat(52) + "%n" +
       "Escolha: "
+    );
+  }
+
+  public void mostrarAcaoEscolhida(PokeDeBatalha poke) {
+    System.out.printf(
+      "---___---___---___---___---___---___---___---___---_%n%n" +
+      "%n>>> %s escolheu sua ação!%n",
+      poke.getNome()
     );
   }
 
@@ -99,6 +139,14 @@ public class Console {
       resultado.getAlvo().getNome(),
       resultado.getHpRestante(),
       resultado.getAlvo().getHpMaximo()
+    );
+  }
+
+  public void mostrarInicioEfeitos() {
+    System.out.printf(
+      "-".repeat(52) + "%n" +
+      ">>> EFEITOS DA BATALHA%n" +
+      "-".repeat(52) + "%n"
     );
   }
 
