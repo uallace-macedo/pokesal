@@ -1,4 +1,4 @@
-package com.pokesal;
+package com.pokesal.model;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,8 @@ public class PokeDeBatalha {
 	
 	private Treinador treinador;
 	private String nome;
-	private int hp;
+	private int hpMaximo;
+	private int hpAtual;
 	private int defesa;
 	private int ataque;
 	private int velocidade;
@@ -14,15 +15,26 @@ public class PokeDeBatalha {
 	private ArrayList<Habilidade> habilidades;
 	private EfeitoAtk efeitoatk;
 
-	public PokeDeBatalha(Treinador treinador, String nome, int hp, int defesa, int ataque, int velocidade,
-			TipoElemento tipoElemento, ArrayList<Habilidade> habilidades, EfeitoAtk efeitoatk) {
-		super();
+	public PokeDeBatalha(
+		Treinador treinador,
+		String nome,
+		int hp,
+		int defesa,
+		int ataque,
+		int velocidade,
+		TipoElemento tipoElemento,
+		ArrayList<Habilidade> habilidades,
+		EfeitoAtk efeitoatk
+	) {
 		this.treinador = treinador;
 		this.nome = nome;
-		this.hp = hp;
+
+		this.hpMaximo = hp;
+		this.hpAtual = hp;
 		this.defesa = defesa;
 		this.ataque = ataque;
 		this.velocidade = velocidade;
+
 		this.tipoElemento = tipoElemento;
 		this.habilidades = habilidades;
 		this.efeitoatk = efeitoatk;
@@ -66,16 +78,16 @@ public class PokeDeBatalha {
 			dano = 1;
 		}
 
-		int novoHp = (int) (alvo.getHp() - dano);
+		int novoHp = (int) (alvo.getHpAtual() - dano);
 		if (novoHp < 0){
 			novoHp = 0;
 		}
-		alvo.setHp(novoHp);
+		alvo.setHpAtual(novoHp);
 
 	}
 	
 	public void usarItem(Item item) {
-		setHp(getHp() + item.getAdicionaHP());
+		setHpAtual(getHpAtual() + item.getAdicionaHP());
 		setVelocidade(getVelocidade() + item.getAumentaSpeed());
 		if (item.isRemoveEfeito()) {
 				setEfeitoatk(null);
@@ -97,14 +109,6 @@ public class PokeDeBatalha {
 	
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	
-	public int getHp() {
-		return hp;
-	}
-	
-	public void setHp(int hp) {
-		this.hp = hp;
 	}
 	
 	public int getDefesa() {
@@ -153,5 +157,21 @@ public class PokeDeBatalha {
 	
 	public void setEfeitoatk(EfeitoAtk efeitoatk) {
 		this.efeitoatk = efeitoatk;
-	}	
+	}
+
+	public int getHpMaximo() {
+		return hpMaximo;
+	}
+
+	public void setHpMaximo(int hpMaximo) {
+		this.hpMaximo = hpMaximo;
+	}
+
+	public int getHpAtual() {
+		return hpAtual;
+	}
+
+	public void setHpAtual(int hpAtual) {
+		this.hpAtual = hpAtual;
+	}
 }

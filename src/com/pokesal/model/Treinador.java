@@ -1,4 +1,4 @@
-package com.pokesal;
+package com.pokesal.model;
 
 import java.util.ArrayList;
 

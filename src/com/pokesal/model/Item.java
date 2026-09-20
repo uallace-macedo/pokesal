@@ -1,4 +1,4 @@
-package com.pokesal;
+package com.pokesal.model;
 
 public class Item {
 
