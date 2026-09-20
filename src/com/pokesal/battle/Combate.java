@@ -9,7 +9,10 @@ import com.pokesal.model.TipoHabilidades;
 public class Combate {
 
   public int calcularAtaqueEfetivo(PokeDeBatalha poke, Ambiente ambiente) {
-    if(!ambienteFavorece(poke, ambiente)) return poke.getAtaque();
+
+    if(!ambienteFavorece(poke, ambiente)) {
+      return poke.getAtaque();
+    }
 
     return (int) (
       poke.getAtaque() * (1 + ambiente.getAumentaAtk())
@@ -17,7 +20,10 @@ public class Combate {
   }
 
   public int calcularDefesaEfetiva(PokeDeBatalha poke, Ambiente ambiente) {
-    if(!ambienteFavorece(poke, ambiente)) return poke.getDefesa();
+
+    if(!ambienteFavorece(poke, ambiente)) {
+      return poke.getDefesa();
+    }
 
     return (int) (
       poke.getDefesa() * (1 + ambiente.getAumentaDef())
@@ -25,47 +31,51 @@ public class Combate {
   }
 
   public int calcularVelocidadeEfetiva(PokeDeBatalha poke, Ambiente ambiente) {
-    if(!ambienteFavorece(poke, ambiente)) return poke.getVelocidade();
+
+    if(!ambienteFavorece(poke, ambiente)) {
+      return poke.getVelocidade();
+    }
 
     return (int) (
       poke.getVelocidade() * (1 + ambiente.getAumentaSpd())
     );
   }
 
-  public int calcularDano(
-    PokeDeBatalha atacante,
-    PokeDeBatalha alvo,
-    Habilidade habilidade,
-    Ambiente ambiente
-  ) {
+  public int calcularDano(PokeDeBatalha atacante, PokeDeBatalha alvo, Habilidade habilidade, Ambiente ambiente) {
+    
     int ataqueEfetivo = calcularAtaqueEfetivo(atacante, ambiente);
     int defesaEfetiva = calcularDefesaEfetiva(alvo, ambiente);
 
     double multiplicador = calcularMultiplicadorTipo(habilidade, alvo);
-    double dano = Math.max(
-      1,
+    double dano = Math.max(1,
       (ataqueEfetivo + habilidade.getDano()) * multiplicador - (defesaEfetiva / 2.0)
     );
 
     return (int) dano;
   }
 
-  public void atacar(
+  public ResultadoAtaque atacar(
     PokeDeBatalha atacante,
     PokeDeBatalha alvo,
     Habilidade habilidade,
     Ambiente ambiente
   ) {
-    int dano = calcularDano(atacante, alvo, habilidade, ambiente);
-    int novoHp = Math.max(
-      0,
-      alvo.getHpAtual() - dano
-    );
 
+    int dano = calcularDano(atacante, alvo, habilidade, ambiente);
+    int novoHp = Math.max(0, alvo.getHpAtual() - dano);
     alvo.setHpAtual(novoHp);
+
+    return new ResultadoAtaque(
+      atacante,
+      alvo,
+      habilidade,
+      dano,
+      novoHp
+    );
   }
 
   private double calcularMultiplicadorTipo(Habilidade habilidade, PokeDeBatalha alvo) {
+    
     TipoHabilidades tipoAtaque = habilidade.getTipoHabilidade();
     TipoElemento tipoAlvo = alvo.getTipoElemento();
 

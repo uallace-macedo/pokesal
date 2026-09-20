@@ -3,6 +3,7 @@ package com.pokesal.ui;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.pokesal.battle.ResultadoAtaque;
 import com.pokesal.model.Habilidade;
 import com.pokesal.model.Item;
 
@@ -46,9 +47,12 @@ public class Console {
     for(int i = 0; i < habilidades.size(); i++) {
       Habilidade habilidade = habilidades.get(i);
       System.out.printf(
-        "%d. %s",
+        "%d. %s%n" +
+        "Tipo: %s%n" +
+        "Dano: %d%n",
         (i + 1),
-        habilidade.getNome()
+        habilidade.getNome(),
+        habilidade.getTipoHabilidade()
       );
     }
 
@@ -64,7 +68,7 @@ public class Console {
     for(int i = 0; i < itens.size(); i++) {
       Item item = itens.get(i);
       System.out.printf(
-        "%d. %s",
+        "%d. %s%n",
         (i + 1),
         item.getNome()
       );
@@ -73,6 +77,27 @@ public class Console {
     System.out.printf(
       "=====================%n" +
       "Escolha: "
+    );
+  }
+
+  public void mostrarResultadoAtaque(ResultadoAtaque resultado) {
+    System.out.printf(
+      "%n" +
+      "%s usou %s!%n",
+      resultado.getAtacante().getNome(),
+      resultado.getHabilidade().getNome()
+    );
+
+    System.out.printf(
+      "Dano causado: %d%n",
+      resultado.getDano()
+    );
+
+    System.out.printf(
+      "%s: %d/%d HP%n%n",
+      resultado.getAlvo().getNome(),
+      resultado.getHpRestante(),
+      resultado.getAlvo().getHpMaximo()
     );
   }
 }
