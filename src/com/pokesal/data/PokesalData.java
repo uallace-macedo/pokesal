@@ -9,7 +9,7 @@ import com.pokesal.model.TipoElemento;
 
 public class PokesalData {
 
-	public static final Pokesal BULBASAL = new Pokesal(
+    public static final Pokesal BULBASAL = new Pokesal(
 		"BulbaSal", 380, 25, 35, 60, TipoElemento.PLANTA,
 		new ArrayList<Habilidade>(List.of(
 			HabilidadeData.QUEDA_DE_MANGA,
@@ -19,7 +19,7 @@ public class PokesalData {
 		))
 	);
 
-	public static final Pokesal CHARSAL = new Pokesal(
+    public static final Pokesal CHARSAL = new Pokesal(
 		"CharSal", 330, 15, 50, 100, TipoElemento.FOGO,
 		new ArrayList<Habilidade>(List.of(
 			HabilidadeData.CURTO_CIRCUITO,
@@ -29,7 +29,7 @@ public class PokesalData {
 		))
 	);
 
-	public static final Pokesal SQUIRTSAL = new Pokesal(
+    public static final Pokesal SQUIRTSAL = new Pokesal(
 		"SquirtSal", 450, 30, 35, 45, TipoElemento.AGUA,
 		new ArrayList<Habilidade>(List.of(
 			HabilidadeData.GOTEIRA,
@@ -39,7 +39,7 @@ public class PokesalData {
 		))
 	);
 
-	public static final Pokesal CHIKOSAL = new Pokesal(
+    public static final Pokesal CHIKOSAL = new Pokesal(
 		"ChikoSal", 400, 30, 30, 70, TipoElemento.PLANTA,
 		new ArrayList<Habilidade>(List.of(
 			HabilidadeData.FOLHA_SECA,
@@ -49,7 +49,7 @@ public class PokesalData {
 		))
 	);
 
-	public static final Pokesal CYNDASAL = new Pokesal(
+    public static final Pokesal CYNDASAL = new Pokesal(
 		"CyndaSal", 320, 10, 50, 120, TipoElemento.FOGO,
 		new ArrayList<Habilidade>(List.of(
 			HabilidadeData.CURTO_CIRCUITO,
@@ -59,7 +59,7 @@ public class PokesalData {
 		))
 	);
 
-	public static final Pokesal TOTOSAL = new Pokesal(
+    public static final Pokesal TOTOSAL = new Pokesal(
 		"TotoSal", 470, 28, 40, 35, TipoElemento.AGUA,
 		new ArrayList<Habilidade>(List.of(
 			HabilidadeData.GOTEIRA,
@@ -69,8 +69,8 @@ public class PokesalData {
 		))
 	);
   
-  public static ArrayList<Pokesal> gerar() {
-		return new ArrayList<Pokesal>(List.of(
+    public static ArrayList<Pokesal> gerar() {
+        return new ArrayList<Pokesal>(List.of(
 			BULBASAL,
 			CHARSAL,
 			SQUIRTSAL,
@@ -78,5 +78,5 @@ public class PokesalData {
 			CYNDASAL,
 			TOTOSAL
 		));
-  }
+    }
 }
