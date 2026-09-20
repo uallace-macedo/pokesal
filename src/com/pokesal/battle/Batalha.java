@@ -150,7 +150,14 @@ public class Batalha {
     switch (acao.getTipo()) {
 
       case ATACAR:
-        combate.atacar(atacante, alvo, acao.getHabilidade(), ambiente);
+        ResultadoAtaque resultado = combate.atacar(
+          atacante,
+          alvo,
+          acao.getHabilidade(),
+          ambiente
+        );
+
+        console.mostrarResultadoAtaque(resultado);
         return true;
 
       case USAR_ITEM:
