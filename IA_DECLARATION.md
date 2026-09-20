@@ -1,8 +1,8 @@
-<div>
-  <h3>Pergunta 1:</h3>
-  <code>
+## Histórico de PROMPTS
 
-    boa pai! como vc ta?
+### Pergunta
+
+ boa pai! como vc ta?
     # Classe BATALHA
 
     HP: 300 a 500
@@ -74,13 +74,10 @@
     que vai verificar questões como super efetivo, etc., e modificar os atributos do PokeDeBatalha
 
     consegue organizar pra mim esse .md?
-    
-  </code>
 
-  <h3>Resposta 1:</h3>
-  <code>
-  
-    Fala, meu querido! Tô suave por aqui, pronto pra rodar aquele par de olhos extra no código.Dei uma geral no seu Markdown para organizar a estrutura, ajustar a sintaxe dos blocos de código Java e deixar as regras de negócio bem nítidas.Aqui está o .md limpo e estruturado:
+### Resposta
+
+Fala, meu querido! Tô suave por aqui, pronto pra rodar aquele par de olhos extra no código.Dei uma geral no seu Markdown para organizar a estrutura, ajustar a sintaxe dos blocos de código Java e deixar as regras de negócio bem nítidas.Aqui está o .md limpo e estruturado:
     
     # Classe Batalha
 
@@ -164,16 +161,12 @@
     ### 3. Uso de Itens
     * A classe `Item` precisa do método `utilizar(PokeDeBatalha pdb)` para atualizar os status do Pokesal afetado.
     * A classe `Batalha` deve conter 2 atributos específicos para gerenciar e controlar os itens utilizados por cada um dos treinadores.
-  </code>
-</div>
 
-<hr />
+---
 
-<div>
-  <h3>Pergunta 2:</h3>
-  <code>
+### Pergunta
 
-    package com.pokesal;
+package com.pokesal;
 
     import java.util.ArrayList;
 
@@ -250,12 +243,9 @@
     Encontrando variáveis inexistentes e erros de digitação nos métodos.
     Tem alguns erros que não compilam e um bug de lógica importante. Vou listar cada um antes de mostrar a correção.
 
-  </code>
+### Resposta
 
-  <h3>Resposta 2:</h3>
-  <code>
-
-    Erros que impedem a compilação
+Erros que impedem a compilação
     Construtor sem nome da classe — public (String treinadorNome, ...) precisa se chamar Treinador, senão o Java não reconhece como construtor.
     getNome() usa uma variável que não existe — return Treinadornome; (com T maiúsculo), mas o campo se chama treinadorNome (t minúsculo). Erro de compilação.
     setNome() tem dois problemas: atribui a this.Treinadornome (campo inexistente) e falta o ; no fim da linha.
@@ -343,18 +333,149 @@
                     '}';
         }
     }
-  
-  </code>
-</div>
 
-<hr />
+---
 
-<div>
-  <h3>Pergunta 3:</h3>
-  <code></code>
+### Pergunta
 
-  <h3>Resposta 3:</h3>
-  <code></code>
-</div>
+boa pai, blz? seguinte to com um projeto java que ta ficando bem bagunçado. tenho varias classes diferentes, algumas com regras de negocio, outras com dados, outras mexendo com scanner/console, e ta tudo praticamente dentro do mesmo pacote
 
-<hr/>
+quero organizar o projeto antes que ele cresça ainda mais e fique ruim de mexer, mas nao quero fazer nenhuma arquitetura absurda
+
+como posso fazer isso? organizar as classes, separar as responsabilidades e tals? manda uma estrutura simples ai, que facilite continuar desenvolvendo sem misturar tudo pf
+
+**print da estrutura de arquivos**
+
+### Resposta
+
+A ideia é separar o projeto por **responsabilidade**, mas sem fazer overengineering.
+
+Uma estrutura simples seria:
+
+```text
+com.pokesal
+│
+├── Main.java
+│
+├── model/
+│   ├── Pokesal.java
+│   ├── PokeDeBatalha.java
+│   ├── Treinador.java
+│   ├── Habilidade.java
+│   ├── EfeitoAtk.java
+│   ├── Item.java
+│   ├── Ambiente.java
+│   └── enums...
+│
+├── battle/
+│   ├── Batalha.java
+│   ├── Turno.java
+│   ├── CalculadorDano.java
+│   └── ...
+│
+├── data/
+│   └── DadosBase.java
+│
+└── ui/
+    ├── Menu.java
+    ├── Console.java
+    └── ...
+```
+
+`model/`
+Representa os objetos e conceitos do jogo
+
+```bash
+Pokesal
+Treinador
+Habilidade
+Item
+Ambiente
+...
+```
+
+Essas classes devem representar o domínio do jogo, sem ficarem responsáveis pela interação com o usuário.
+
+`battle`
+Contém as regras e o fluxo das batalhas
+
+```bash
+Batalha
+    ↓
+controla o fluxo da batalha
+
+CalculadorDano
+    ↓
+cuida das regras de cálculo
+
+Turno
+    ↓
+representa/controla o turno
+```
+
+`data/`
+Contém os dados iniciais utilizados pelo jogo.
+
+```bash
+DadosBase
+    ↓
+Pokesal
+Habilidades
+Itens
+Ambientes
+...
+```
+
+A ideia é não misturar os dados de criação dos objetos com as próprias classes do modelo.
+
+`ui/`
+Cuida da interação com o usuário.
+
+```bash
+Console
+Menu
+...
+```
+
+Aqui ficam coisas como `Scanner`, `System.out.println()` e menus.
+
+`Main`
+Fica apenas como ponto de entrada da aplicação.
+
+```bash
+Main
+  ↓
+inicia/prepara o jogo
+  ↓
+Batalha
+  ↓
+Model + regras
+```
+
+#### Princípio geral
+A ideia é manter cada parte responsável por uma coisa:
+
+```bash
+              ┌──────────┐
+              │   Main   │
+              └────┬─────┘
+                   ↓
+              ┌──────────┐
+              │    UI    │
+              └────┬─────┘
+                   ↓
+              ┌──────────┐
+              │  Battle  │
+              └────┬─────┘
+                   ↓
+              ┌──────────┐
+              │  Model   │
+              └──────────┘
+
+              Data
+                │
+                └──────→ Model
+```
+
+O objetivo não é criar a arquitetura mais sofisticada possível,
+e sim **separar responsabilidades o suficiente para o + projeto continuar crescendo sem virar uma classe gigante com tudo dentro.**
