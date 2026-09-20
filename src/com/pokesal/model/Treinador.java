@@ -48,8 +48,7 @@ public class Treinador {
 			pokesal.getAtaque(),
 			pokesal.getVelocidade(),
 			pokesal.getTipoElemento(),
-			pokesal.getHabilidades(),
-			null
+			pokesal.getHabilidades()
 		);
 	}
 
