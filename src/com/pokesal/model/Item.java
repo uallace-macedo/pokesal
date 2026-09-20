@@ -4,16 +4,14 @@ public class Item {
 
     private String nome;
     private String descricao;
-    private int adicionaHP;
-    private boolean removeEfeito;
-    private int aumentaSpeed;
-
-    public Item(String nome, String descricao, int adicionaHP, boolean removeEfeito, int aumentaSpeed) {
+    private TipoEfeitoItem tipoEfeito;
+    private int valor;
+    
+    public Item(String nome, String descricao, TipoEfeitoItem tipoEfeito, int valor) {
         this.nome = nome;
         this.descricao = descricao;
-        this.adicionaHP = adicionaHP;
-        this.removeEfeito = removeEfeito;
-        this.aumentaSpeed = aumentaSpeed;
+        this.tipoEfeito = tipoEfeito;
+        this.valor = valor;
     }
 
     public String getNome() {
@@ -32,38 +30,19 @@ public class Item {
         this.descricao = descricao;
     }
 
-    public int getAdicionaHP() {
-        return adicionaHP;
+    public TipoEfeitoItem getTipoEfeito() {
+        return tipoEfeito;
     }
 
-    public void setAdicionaHP(int adicionaHP) {
-        this.adicionaHP = adicionaHP;
+    public void setTipoEfeito(TipoEfeitoItem tipoEfeito) {
+        this.tipoEfeito = tipoEfeito;
     }
 
-    public boolean isRemoveEfeito() {
-        return removeEfeito;
+    public int getValor() {
+        return valor;
     }
 
-    public void setRemoveEfeito(boolean removeEfeito) {
-        this.removeEfeito = removeEfeito;
-    }
-
-    public int getAumentaSpeed() {
-        return aumentaSpeed;
-    }
-
-    public void setAumentaSpeed(int aumentaSpeed) {
-        this.aumentaSpeed = aumentaSpeed;
-    }
-
-    @java.lang.Override
-    public java.lang.String toString() {
-        return "Item{" +
-                "nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", adicionaHP=" + adicionaHP +
-                ", removeEfeito=" + removeEfeito +
-                ", aumentaSpeed=" + aumentaSpeed +
-                '}';
+    public void setValor(int valor) {
+        this.valor = valor;
     }
 }

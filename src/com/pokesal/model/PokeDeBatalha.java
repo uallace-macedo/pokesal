@@ -87,12 +87,21 @@ public class PokeDeBatalha {
 	}
 	
 	public void usarItem(Item item) {
-		setHpAtual(getHpAtual() + item.getAdicionaHP());
-		setVelocidade(getVelocidade() + item.getAumentaSpeed());
-		if (item.isRemoveEfeito()) {
+		switch (item.getTipoEfeito()) {
+			case CURA_TOTAL:
+				setHpAtual(getHpMaximo());	
+				break;
+
+			case REMOVE_EFEITO:
 				setEfeitoatk(null);
+				break;
+
+			case AUMENTA_SPEED:
+				setVelocidade(getVelocidade() + item.getValor());
+				break;
 		}
-    	treinador.getMochila().remove(item);
+
+		treinador.getMochila().remove(item);
 	}
 	
 	public Treinador getTreinador() {

@@ -4,30 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pokesal.model.Item;
+import com.pokesal.model.TipoEfeitoItem;
 
 public class ItemData {
   
   public final static Item SEGUNDA_CHAMADA = new Item(
     "Segunda Chamada",
     "Remove qualquer efeito",
-    0,
-    true,
+    TipoEfeitoItem.REMOVE_EFEITO,
     0
   );
 
   public final static Item BENCA_DO_PADRE = new Item(
     "Bença do Padre",
     "Regenera 100% do HP",
-    999,
-    false,
+    TipoEfeitoItem.CURA_TOTAL,
     0
   );
 
   public final static Item REDBULL = new Item(
     "RedBull",
     "Aumenta em 30 pontos o speed do pokesal",
-    0,
-    false,
+    TipoEfeitoItem.AUMENTA_SPEED,
     30
   );
 
