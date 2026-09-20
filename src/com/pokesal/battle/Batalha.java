@@ -23,8 +23,6 @@ public class Batalha {
   private Combate combate;
   private Console console;
 
-  private PokeDeBatalha ultimoQueJogou;
-
   public Batalha(Ambiente ambiente, PokeDeBatalha jogador, PokeDeBatalha oponente) {
     this.ambiente = ambiente;
     this.jogador = jogador;
@@ -34,27 +32,62 @@ public class Batalha {
     this.console = new Console();
   }
 
-  public void iniciar() {    
-
-    ultimoQueJogou = null;
+  public void iniciar() {
+    
+    int rodada = 1;
 
     while (!terminou()) {
-      PokeDeBatalha proximo = obterProximoJogador();
-      executarTurno(proximo);
-      ultimoQueJogou = proximo;
-      
-      if (terminou()) {
-        break;
-      }
+
+      console.mostrarInicioRodada(rodada);
+
+      Acao acaoJogador = obterAcao(jogador);
+      console.mostrarAcaoEscolhida(jogador);
+
+      Acao acaoOponente = obterAcao(oponente);
+      console.mostrarAcaoEscolhida(oponente);
+
+      executarRodada(
+        acaoJogador,
+        acaoOponente
+      );
+
+      rodada++;
     }
 
     finalizar();
   }
 
-  private PokeDeBatalha obterProximoJogador() {
-    if(ultimoQueJogou == null) return obterMaisRapido();
-    if(ultimoQueJogou == jogador) return oponente;
-    return jogador;
+  private void executarRodada(Acao acaoJogador, Acao acaoOponente) {
+    
+    console.mostrarExecucaoRodada();
+
+    PokeDeBatalha primeiro = obterMaisRapido();
+    PokeDeBatalha segundo = obterAlvo(primeiro);
+
+    Acao acaoPrimeiro = obterAcao(
+      primeiro,
+      acaoJogador,
+      acaoOponente
+    );
+
+    Acao acaoSegundo = obterAcao(
+      segundo,
+      acaoJogador,
+      acaoOponente
+    );
+
+    executarAcao(primeiro, segundo, acaoPrimeiro);
+    if(terminou()) return;
+
+    executarAcao(segundo, primeiro, acaoSegundo);
+    processarEfeitos();
+  }
+
+  private void processarEfeitos() {
+    console.mostrarInicioEfeitos();
+    console.mostrarMensagem("em construção...\n\n");
+
+    // implementar processamento dos efeitos
   }
 
   private PokeDeBatalha obterMaisRapido() {
@@ -65,19 +98,9 @@ public class Batalha {
     return oponente;
   }
 
-  private void executarTurno(PokeDeBatalha atacante) {
-    System.out.println("Turno de " + atacante.getNome());
-    PokeDeBatalha alvo = obterAlvo(atacante);
-
-    while(true) {
-      Acao acao = obterAcao(atacante);
-      if(executarAcao(atacante, alvo, acao)) break;
-    }
-  }
-
   private Acao obterAcao(PokeDeBatalha atacante) {
     while(true) {
-      console.mostrarMenuAcao();
+      console.mostrarMenuAcao(atacante);
       int opcao = console.lerOpcao();
   
       switch (opcao) {
@@ -93,11 +116,16 @@ public class Batalha {
     }
   }
 
+  private Acao obterAcao(PokeDeBatalha poke, Acao acaoJogador, Acao acaoOponente) {
+    if(poke == jogador) return acaoJogador;
+    return acaoOponente;
+  }
+
   private Acao obterAcaoAtaque(PokeDeBatalha atacante) {
     ArrayList<Habilidade> habilidades = atacante.getHabilidades();
 
     while(true) {
-      console.mostrarHabilidades(habilidades);
+      console.mostrarHabilidades(atacante);
       int opcao = console.lerOpcao();
 
       if(opcao == 0) return obterAcao(atacante);
@@ -117,6 +145,12 @@ public class Batalha {
   }
 
   private Acao obterAcaoItem(PokeDeBatalha atacante) {
+
+    if(!podeUsarItem(atacante)) {
+      console.mostrarMensagem("Você já utilizou o limite de itens nesta batalha!");
+      return obterAcao(atacante);
+    }
+
     ArrayList<Item> mochila = atacante.getTreinador().getMochila();
     if(mochila.isEmpty()) {
       console.mostrarMensagem("Você não possui itens!");
@@ -158,11 +192,6 @@ public class Batalha {
         return true;
 
       case USAR_ITEM:
-        if (!podeUsarItem(atacante)) {
-          console.mostrarMensagem("Você já utilizou o limite de itens nesta batalha!");
-          return false;
-        }
-
         Item item = acao.getItem();
         
         ResultadoItem resultadoItem = combate.usarItem(atacante, item);
