@@ -43,6 +43,19 @@ public class Batalha {
     this.combate = new Combate();
     this.console = new Console();
   }
+  
+  public Batalha(
+		    Ambiente ambiente,
+		    PokeDeBatalha jogador,
+		    PokeDeBatalha oponente,
+		    Console console
+		) {
+		  this.ambiente = ambiente;
+		  this.jogador = jogador;
+		  this.oponente = oponente;
+		  this.combate = new Combate();
+		  this.console = console;
+		}
 
   /**
    * Inicia a batalha e executa suas rodadas até que um dos Pokesals seja
